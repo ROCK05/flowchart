@@ -18,4 +18,6 @@ public interface EdgeRepository extends JpaRepository<Edge, Long> {
 
   Integer deleteByFlowchartIdAndSourceNodeIdInOrTargetNodeIdIn(Long flowchartId,
       List<Long> sourceNodeIds, List<Long> targetNodeIds);
+
+  List<Edge> findByFlowchartIdAndSourceNodeId(Long flowchartId, Long sourceNodeId);
 }

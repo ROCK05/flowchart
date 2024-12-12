@@ -143,4 +143,19 @@ public class EdgeServiceImpl implements EdgeService {
 
     return nodeService.getNodesForValues(flowchartId, nodeValues);
   }
+
+  @Override
+  public List<EdgeModel> getOutgoingEdges(Long flowchartId, Node node, List<Long> targetNodeIds) {
+    List<Edge> edgesInDb =
+        edgeRepository.findByFlowchartIdAndSourceNodeId(flowchartId, node.getId());
+    List<EdgeModel> edges = new ArrayList<>();
+    if (!CollectionUtils.isEmpty(edgesInDb)) {
+      edgesInDb.forEach(edge -> {
+        edges.add(EdgeModel.builder().id(edge.getId()).sourceId(edge.getSourceNodeId())
+            .source(node.getValue()).targetId(edge.getTargetNodeId()).build());
+        targetNodeIds.add(edge.getTargetNodeId());
+      });
+    }
+    return edges;
+  }
 }

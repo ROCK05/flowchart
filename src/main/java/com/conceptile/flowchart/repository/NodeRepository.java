@@ -15,4 +15,6 @@ public interface NodeRepository extends JpaRepository<Node, Long> {
   Integer deleteByFlowchartId(Long flowchartId);
 
   List<Node> findByFlowchartIdAndValueIn(Long flowchartId, Set<String> values);
+
+  List<Node> findByFlowchartIdAndIdIn(Long flowchartId, List<Long> ids);
 }

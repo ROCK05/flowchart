@@ -3,7 +3,9 @@ package com.conceptile.flowchart.Service.impl;
 import com.conceptile.flowchart.Service.EdgeService;
 import com.conceptile.flowchart.Service.FlowchartService;
 import com.conceptile.flowchart.Service.NodeService;
+import com.conceptile.flowchart.common.FlowchartException;
 import com.conceptile.flowchart.entity.Node;
+import com.conceptile.flowchart.model.EdgeModel;
 import com.conceptile.flowchart.model.NodeModel;
 import com.conceptile.flowchart.repository.NodeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -120,6 +123,7 @@ public class NodeServiceImpl implements NodeService {
     return new ArrayList<>(valueToNodeMap.values());
   }
 
+  @Override
   public Map<String, Node> getNodesForValues(Long flowchartIds, Set<String> values) {
     List<Node> nodes = nodeRepository.findByFlowchartIdAndValueIn(flowchartIds, values);
     Map<String, Node> valueToNodeMap = new HashMap<>();
@@ -127,5 +131,28 @@ public class NodeServiceImpl implements NodeService {
       nodes.forEach(node -> valueToNodeMap.putIfAbsent(node.getValue(), node));
     }
     return valueToNodeMap;
+  }
+
+  @Override
+  public List<EdgeModel> getAllTargetEdges(Long flowchartId, NodeModel nodeModel) {
+    log.info("Getting all out going edge for node: {} with flowchartId: {}", nodeModel,
+        flowchartId);
+
+    List<Node> node =
+        nodeRepository.findByFlowchartIdAndValueIn(flowchartId, Set.of(nodeModel.getValue()));
+    if (CollectionUtils.isEmpty(node)) {
+      throw new FlowchartException("Node does not exist!");
+    }
+
+    List<Long> targetNodeIds = new ArrayList<>();
+    List<EdgeModel> edges = edgeService.getOutgoingEdges(flowchartId, node.get(0), targetNodeIds);
+    if (!CollectionUtils.isEmpty(targetNodeIds)) {
+    List<Node> targetNodes = nodeRepository.findByFlowchartIdAndIdIn(flowchartId, targetNodeIds);
+    Map<Long, Node> nodeModelMap =
+        targetNodes.stream().collect(Collectors.toMap(Node::getId, Function.identity()));
+
+    edges.forEach(edge -> edge.setTarget(nodeModelMap.get(edge.getTargetId()).getValue()));
+    }
+    return edges;
   }
 }

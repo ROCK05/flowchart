@@ -1,6 +1,7 @@
 package com.conceptile.flowchart.Service;
 
 import com.conceptile.flowchart.entity.Node;
+import com.conceptile.flowchart.model.EdgeModel;
 import com.conceptile.flowchart.model.NodeModel;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface NodeService {
   List<NodeModel> addNodes(Long flowchartId, List<NodeModel> nodes);
 
   Map<String, Node> getNodesForValues(Long flowchartIds, Set<String> values);
+
+  List<EdgeModel> getAllTargetEdges(Long flowchartId, NodeModel nodeModel);
 }

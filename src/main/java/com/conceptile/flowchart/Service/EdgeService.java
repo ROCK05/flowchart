@@ -1,5 +1,6 @@
 package com.conceptile.flowchart.Service;
 
+import com.conceptile.flowchart.entity.Node;
 import com.conceptile.flowchart.model.EdgeModel;
 import com.conceptile.flowchart.model.NodeModel;
 
@@ -19,4 +20,6 @@ public interface EdgeService {
   Boolean addEdges(Long flowchartId, List<EdgeModel> edges);
 
   void deleteEdgesForNodes(Long flowchartId, List<Long> nodeIds);
+
+  List<EdgeModel> getOutgoingEdges(Long flowchartId, Node node, List<Long> targetNodeIds);
 }
