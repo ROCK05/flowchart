@@ -12,13 +12,13 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FlowchartModel {
   private Long id;
   @Builder.Default
   private String name = "Flowchart";
-  private List<NodeModel> nodes;
-  private List<EdgeModel> edges;
+  protected List<NodeModel> nodes;
+  protected List<EdgeModel> edges;
 }

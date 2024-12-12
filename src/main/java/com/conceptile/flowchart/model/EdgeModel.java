@@ -11,8 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EdgeModel<T> {
+public class EdgeModel {
   private Long id;
-  private T source;
-  private T target;
+  private String source;
+  private String target;
+  private Long sourceId;
+  private Long targetId;
 }

@@ -30,6 +30,9 @@ public class Edge {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(name = "FLOWCHART_ID")
+  private Long flowchartId;
+
   @Column(name = "SOURCE_NODE_ID")
   private Long sourceNodeId;
 

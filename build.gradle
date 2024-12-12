@@ -26,4 +26,5 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	runtimeOnly 'com.h2database:h2'
 	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
 }
