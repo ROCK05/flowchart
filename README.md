@@ -69,3 +69,19 @@ Password: alpha
 8. Get Target Nodes \
    Endpoint: PUT /flowchart/{id}/target-nodes \
    Description: Retrieves all outgoing nodes for a given node in the flowchart.
+
+### Note
+
+**Flowchart Implementation**: This project uses an ID-based implementation for the flowchart, ensuring each flowchart structure is represented by a unique ID.
+
+**Node and Edge Implementation**: Nodes are represented by their "value" and same value can be used for edges. Since there is no UI, the "value" is used in the API to identify nodes and edges. \
+For edges, the node value can be used for both the source and the target.
+
+**API Usage**:
+
+* The flowchart ID is used for all interactions related to a specific flowchart, including creating, updating, and retrieving flowchart data. \
+* Node values are used for operations like creating, updating, or deleting nodes and edges. Each node value must be unique within a flowchart. \
+* Although node IDs and edge IDs are included in the API responses, they can be ignored as they are primarily used internally.
+
+**Constraints**:
+All node values within a flowchart must be unique.
